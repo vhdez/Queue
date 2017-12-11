@@ -1,18 +1,16 @@
 package edu.sla;
 
 public class Main {
-    static String[] myQueue = new String[100];
+
 
     public static void main(String[] args) {
-        QueuePopulator qpop = new QueuePopulator();
-        Thread populate = new Thread(qpop);
 
-        QueuePrinter qprint = new QueuePrinter(populate);
+        QueuePopulator qpop = new QueuePopulator();
+        QueuePrinter qprint = new QueuePrinter();
+        Thread populate = new Thread(qpop);
         Thread print = new Thread(qprint);
 
         print.start();
         populate.start();
-
     }
-
 }

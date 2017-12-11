@@ -1,10 +1,8 @@
 package edu.sla;
 
-import static edu.sla.Main.myQueue;
-
 public class QueuePopulator implements Runnable {
-
+    private int timesRun = 0;
     public void run() {
-        for(int i = 0; i < 100; i++) myQueue[i] = String.valueOf(i);
+        timesRun++;
     }
 }
