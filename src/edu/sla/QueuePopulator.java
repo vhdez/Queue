@@ -8,7 +8,7 @@ public class QueuePopulator implements Runnable {
     }
 
     public void run() {
-        while (!theQueue.getQueue()[theQueue.getQueue().length - 1].equals("0")) ;
+        while(!theQueue.getItem(99).equals("0")) ;
         theQueue.populate();
     }
 }

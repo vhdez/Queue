@@ -16,4 +16,12 @@ class Queue {
     String[] getQueue() {
         return theQueue;
     }
+
+    String getItem(int item) {
+        return theQueue[item];
+    }
+
+    void setItem(int itemNum, String item) {
+        theQueue[itemNum] = item;
+    }
 }

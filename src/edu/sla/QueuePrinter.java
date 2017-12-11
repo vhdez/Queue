@@ -8,8 +8,9 @@ public class QueuePrinter implements Runnable {
     }
 
     public void run() {
-        while (theQueue.getQueue()[theQueue.getQueue().length - 1].equals("0")) ; //wait for last queue item = "0"
+        //while(theQueue.getItem(99).equals("0")) /*do nothing*/System.out.println("Waiting to print");
         for (String queueItem : theQueue.getQueue()) {
+            while(queueItem.equals("0")) /*do nothing*/System.out.println("Waiting to print");
             System.out.print(queueItem + " ");
             queueItem = "0";
         }
