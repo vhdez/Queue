@@ -1,5 +1,7 @@
 package edu.sla;
 
+import static edu.sla.Main.timesToFill;
+
 public class QueuePrinter implements Runnable {
     private Queue theQueue;
 
@@ -8,11 +10,10 @@ public class QueuePrinter implements Runnable {
     }
 
     public void run() {
-        //while(theQueue.getItem(99).equals("0")) /*do nothing*/System.out.println("Waiting to print");
-        for (String queueItem : theQueue.getQueue()) {
-            while(queueItem.equals("0")) /*do nothing*/System.out.println("Waiting to print");
-            System.out.print(queueItem + " ");
-            queueItem = "0";
+        while(theQueue.moreToPrint()){
+            while (theQueue.getNext() == null) /*do nothing*/ ;
+            System.out.print(theQueue.getNext() + " ");
+            theQueue.nullNext();
         }
     }
 }

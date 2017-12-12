@@ -1,5 +1,7 @@
 package edu.sla;
 
+import static edu.sla.Main.timesToFill;
+
 public class QueuePopulator implements Runnable {
     private  Queue theQueue;
 
@@ -8,7 +10,9 @@ public class QueuePopulator implements Runnable {
     }
 
     public void run() {
-        while(!theQueue.getItem(99).equals("0")) ;
-        theQueue.populate();
+        while(theQueue.moreToPrint()) {
+            while(theQueue.getNext() != null) /*do nothing*/ ;
+            theQueue.populate();
+        }
     }
 }
