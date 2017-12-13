@@ -14,8 +14,9 @@ class Queue {
 
     }
 
-    void populate() {
-        theQueue[populatePos] = String.valueOf(populatePos + (timesPopulated * 100));
+    synchronized void populate() {
+        if(timesPopulated == timesToFill) return;
+        theQueue[populatePos] = String.valueOf(populatePos + (timesPopulated * theQueue.length));
         populatePos++;
         if(populatePos >= theQueue.length) {
             timesPopulated++;
@@ -23,17 +24,21 @@ class Queue {
         }
     }
 
-    String getNext() {
+    synchronized String getNext() {
+        //if(printPos >= theQueue.length) printPos = 0;
         return theQueue[printPos];
     }
 
-    void nullNext() {
+    synchronized void print() {
+        if(theQueue[printPos] == null) return;
+        System.out.print(theQueue[printPos] + " ");
         theQueue[printPos] = null;
         printPos++;
         if(printPos >= theQueue.length) printPos = 0;
     }
 
-    boolean moreToPrint() {
-        return !(timesPopulated == timesToFill && printPos == 0);
+    synchronized boolean moreToPrint() {
+        //System.out.println("Times populated: " + timesPopulated);
+        return !(timesPopulated == timesToFill);
     }
 }

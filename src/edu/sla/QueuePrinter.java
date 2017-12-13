@@ -1,7 +1,5 @@
 package edu.sla;
 
-import static edu.sla.Main.timesToFill;
-
 public class QueuePrinter implements Runnable {
     private Queue theQueue;
 
@@ -9,11 +7,10 @@ public class QueuePrinter implements Runnable {
         theQueue = queue;
     }
 
-    synchronized public void run() {
-        while(theQueue.moreToPrint()){
-            while (theQueue.getNext() == null) /*do nothing*/ ;
-            System.out.print(theQueue.getNext() + " ");
-            theQueue.nullNext();
+    public void run() {
+        while(theQueue.moreToPrint()) {
+            while(theQueue.getNext() == null) if(!theQueue.moreToPrint()) break;
+            theQueue.print();
         }
     }
 }
