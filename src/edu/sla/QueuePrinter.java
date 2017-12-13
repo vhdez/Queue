@@ -9,7 +9,7 @@ public class QueuePrinter implements Runnable {
         theQueue = queue;
     }
 
-    public void run() {
+    synchronized public void run() {
         while(theQueue.moreToPrint()){
             while (theQueue.getNext() == null) /*do nothing*/ ;
             System.out.print(theQueue.getNext() + " ");

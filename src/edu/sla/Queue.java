@@ -4,9 +4,9 @@ import static edu.sla.Main.timesToFill;
 
 class Queue {
     private String[] theQueue;
-    private int timesPopulated;
-    private int populatePos;
-    private int printPos;
+    private int timesPopulated = 0;
+    private int populatePos = 0;
+    private int printPos = 0;
 
     Queue() {
         theQueue = new String[100];
@@ -23,21 +23,17 @@ class Queue {
         }
     }
 
-    synchronized int getLength() {
-        return theQueue.length;
-    }
-
-    synchronized String getNext() {
+    String getNext() {
         return theQueue[printPos];
     }
 
-    synchronized void nullNext() {
+    void nullNext() {
         theQueue[printPos] = null;
         printPos++;
         if(printPos >= theQueue.length) printPos = 0;
     }
 
-    synchronized boolean moreToPrint() {
-        return Integer.valueOf(theQueue[theQueue.length-1]) == 99+((timesToFill-1)*100);
+    boolean moreToPrint() {
+        return !(timesPopulated == timesToFill && printPos == 0);
     }
 }
