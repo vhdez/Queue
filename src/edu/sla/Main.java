@@ -1,10 +1,11 @@
 package edu.sla;
 
 public class Main {
-    static int timesToFill = 2;
 
     public static void main(String[] args) {
-        Queue theQueue = new Queue();
+        int timesToFill = 1;
+
+        Queue theQueue = new Queue(timesToFill);
 
         QueuePopulator qpop = new QueuePopulator(theQueue);
         QueuePrinter qprint = new QueuePrinter(theQueue);

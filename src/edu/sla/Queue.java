@@ -1,16 +1,16 @@
 package edu.sla;
 
-import static edu.sla.Main.timesToFill;
-
 class Queue {
     private String[] theQueue;
     private int timesPopulated = 0;
     private int populatePos = 0;
     private int printPos = 0;
+    private int timesToFill;
 
-    Queue() {
+    Queue(int fillTimes) {
         theQueue = new String[100];
         for(int i = 0; i < theQueue.length; i++) theQueue[i] = null;
+        timesToFill = fillTimes;
 
     }
 
@@ -25,7 +25,6 @@ class Queue {
     }
 
     synchronized String getNext() {
-        //if(printPos >= theQueue.length) printPos = 0;
         return theQueue[printPos];
     }
 
@@ -38,7 +37,6 @@ class Queue {
     }
 
     synchronized boolean moreToPrint() {
-        //System.out.println("Times populated: " + timesPopulated);
         return !(timesPopulated == timesToFill);
     }
 }
