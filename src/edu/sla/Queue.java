@@ -7,11 +7,18 @@ class Queue {
     private int printPos = 0;
     private int timesToFill;
 
+    //constructor for counting queue
     Queue(int fillTimes) {
         theQueue = new String[100];
         for(int i = 0; i < theQueue.length; i++) theQueue[i] = null;
         timesToFill = fillTimes;
 
+    }
+
+    //constructor for keyAction queue
+    Queue() {
+        theQueue = new String[3];
+        for(int i = 0; i < theQueue.length; i++) theQueue[i] = null;
     }
 
     synchronized void populate() {
