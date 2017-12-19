@@ -9,10 +9,11 @@ public class QueuePutter implements Runnable {
 
     @Override
     public void run() {
-        for (int i = 0; i <= 300; i++) {
+        for (int i = 0; i <= 100; i++) {
             while (!originalQueue.put(String.valueOf(i))) {
                 Thread.currentThread().yield();
             }
         }
     }
 }
+//

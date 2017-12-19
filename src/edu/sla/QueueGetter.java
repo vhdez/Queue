@@ -8,7 +8,7 @@ public class QueueGetter implements Runnable {
     QueueGetter(SynchronizedQueue queue, int id) { originalQueue = queue; }
 
     public void run() {
-        for (int i = 0; i <= 300; i++) {
+        for (int i = 0; i <= 100; i++) {
             String getString = originalQueue.get();
             while (getString == null) {
                 Thread.currentThread().yield();

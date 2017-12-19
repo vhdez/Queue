@@ -14,8 +14,14 @@ public class Main {
         QueueGetter myGetter2 = new QueueGetter(myQueue, 2);
         QueueGetter myGetter3 = new QueueGetter(myQueue, 3);
 
-        Thread putterThread = new Thread(myPutter1);
-        putterThread.start();
+        Thread putterThread1 = new Thread(myPutter1);
+        putterThread1.start();
+
+        Thread putterThread2 = new Thread(myPutter2);
+        putterThread2.start();
+
+        Thread putterThread3 = new Thread(myPutter3);
+        putterThread3.start();
 
         Thread getterThread1 = new Thread(myGetter1);
         getterThread1.start();
