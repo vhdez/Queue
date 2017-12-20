@@ -1,6 +1,15 @@
 package edu.sla;
 
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.stage.Stage;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import java.util.Random;
+import javafx.scene.text.Text;
+
 public class Main {
+
 
     public static void main(String[] args) {
 
@@ -33,6 +42,18 @@ public class Main {
         getterThread3.start();
     }
 
+ public void start (Stage firstStage) throws Exception {
+     Button intoTheArray = new Button("Insert Into The Array");
+
+     BorderPane border = new BorderPane();
+     AnchorPane QueuePutter = new AnchorPane();
+     AnchorPane QueueGetter = new AnchorPane();
+     border.setTop(QueuePutter);
+     border.setBottom(QueueGetter);
+
+     Scene theScene = new Scene(border, 450, 150);
+     firstStage.setScene(theScene);
+     firstStage.setTitle("Array Assembly Line");
+     firstStage.show();
+    }
 }
-
-
