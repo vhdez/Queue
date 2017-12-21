@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
@@ -11,7 +12,6 @@ import javafx.stage.Stage;
 import java.io.File;
 
 public class Main extends Application {
-
     /*public static void main(String[] args) {
         int timesToFill = 0;
         Queue theQueue = new Queue(timesToFill);
@@ -44,26 +44,28 @@ public class Main extends Application {
 
     @Override
     public void start(Stage theStage) throws Exception {
-        Media goofyMedia = new Media(new File("src/goofy-yell.mp3").toURI().toString());
-        MediaPlayer goofyPlayer = new MediaPlayer(goofyMedia);
-        Media smashMedia = new Media(new File("src/all-star-vaporwave.mp3").toURI().toString());
-        MediaPlayer smashPlayer = new MediaPlayer(smashMedia);
-        Media childishMedia = new Media(new File("src/wii-shop-bonfire.mp3").toURI().toString());
-        MediaPlayer childishPlayer = new MediaPlayer(childishMedia);
+        MediaPlayer goofyPlayer = new MediaPlayer(new Media(new File("src/goofy-yell.mp3").toURI().toString()));
+        MediaPlayer smashPlayer = new MediaPlayer(new Media(new File("src/all-star-vaporwave.mp3").toURI().toString()));
+        MediaPlayer childishPlayer = new MediaPlayer(new Media(new File("src/wii-shop-bonfire.mp3").toURI().toString()));
 
         Button goofy = new Button("Goofy");
         Button smash = new Button("Smash");
         Button childish = new Button("Childish");
 
+        //TODO: Turn these into separate thread stuff; make them stop on their own, maybe turn buttons into toggles
         goofy.setOnAction(e-> {
+            smashPlayer.stop();
+            childishPlayer.stop();
             goofyPlayer.play();
         });
-
         smash.setOnAction(e-> {
+            goofyPlayer.stop();
+            childishPlayer.stop();
             smashPlayer.play();
         });
-
         childish.setOnAction(e-> {
+            goofyPlayer.stop();
+            smashPlayer.stop();
             childishPlayer.play();
         });
 
@@ -72,7 +74,10 @@ public class Main extends Application {
         buttons.getChildren().add(smash);
         buttons.getChildren().add(childish);
 
-        Scene theScene = new Scene(buttons, 200, 40);
+        VBox things = new VBox();
+        things.getChildren().add(buttons);
+
+        Scene theScene = new Scene(things, 200, 40);
         theStage.setScene(theScene);
         theStage.setTitle("Music Buttons");
         theStage.show();
