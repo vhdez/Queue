@@ -8,9 +8,9 @@ public class QueuePrinter implements Runnable {
     }
 
     public void run() {
-        while(theQueue.moreToPrint()) {
-            while(theQueue.getNext() == null) if(!theQueue.moreToPrint()) break;
-            theQueue.print();
-        }
+//        while(theQueue.moreToPrint()) {
+//            while(theQueue.getNext() == null) if(!theQueue.moreToPrint()) break;
+//            theQueue.print();
+//        }
     }
 }

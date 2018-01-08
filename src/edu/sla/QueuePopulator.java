@@ -8,9 +8,9 @@ public class QueuePopulator implements Runnable {
     }
 
     public void run() {
-        while(theQueue.moreToPrint()) {
-            while(theQueue.getNext() != null) if(!theQueue.moreToPrint()) break;
-            theQueue.populate();
-        }
+//        while(theQueue.moreToPrint()) {
+//            while(theQueue.getNext() != null) if(!theQueue.moreToPrint()) break;
+//            theQueue.populate();
+//        }
     }
 }
