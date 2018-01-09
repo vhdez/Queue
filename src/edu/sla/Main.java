@@ -5,11 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
-
-import java.io.File;
 
 public class Main extends Application {
 
@@ -18,25 +14,23 @@ public class Main extends Application {
 
         Thread.currentThread().setName("GUI Thread");
 
-        Queue theQueue = new Queue();
-        QueuePlayer thePlayer = new QueuePlayer(theQueue);
+        QueuePlayer thePlayer = new QueuePlayer();
 
-        //TODO: something's wrong
+        //TODO: make the queue better my man, its calling weird in the buttons
         Thread letsPlay = new Thread(thePlayer);
-        letsPlay.start();
 
         Button goofy = new Button("Goofy");
         Button smash = new Button("Smash");
         Button childish = new Button("Childish");
 
         goofy.setOnAction(e-> {
-            if(theQueue.canAdd()) theQueue.add("goofy");
+            if(thePlayer.theQueue.canAdd()) thePlayer.theQueue.add("goofy");
         });
         smash.setOnAction(e-> {
-            if(theQueue.canAdd()) theQueue.add("smash");
+            if(thePlayer.theQueue.canAdd()) thePlayer.theQueue.add("smash");
         });
         childish.setOnAction(e-> {
-            if(theQueue.canAdd()) theQueue.add("childish");
+            if(thePlayer.theQueue.canAdd()) thePlayer.theQueue.add("childish");
         });
 
         HBox buttons = new HBox();
@@ -51,5 +45,7 @@ public class Main extends Application {
         theStage.setScene(theScene);
         theStage.setTitle("Music Buttons");
         theStage.show();
+
+        letsPlay.start();
     }
 }
