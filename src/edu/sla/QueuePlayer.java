@@ -10,42 +10,37 @@ class QueuePlayer implements Runnable {
     private MediaPlayer playerGoofy;
     private MediaPlayer playerChildish;
     private MediaPlayer playerSmash;
-    Queue theQueue;
+    private Queue theQueue;
 
-    QueuePlayer() {
-        theQueue = new Queue();
+    QueuePlayer(Queue queue) {
+        theQueue = queue;
         playerGoofy = new MediaPlayer(new Media(new File("src/goofy-yell.mp3").toURI().toString()));
         playerChildish = new MediaPlayer(new Media(new File("src/wii-shop-bonfire.mp3").toURI().toString()));
-        playerSmash = new MediaPlayer(new Media(new File("src/all-star-vaporwave.mp3").toURI().toString()));
+        playerSmash = new MediaPlayer(new Media(new File("src/all-star-short.m4a").toURI().toString()));
     }
 
     private void playNext(String pressed) {
-        playerGoofy.stop();
-        playerGoofy.seek(Duration.ZERO);
-        playerChildish.stop();
-        playerChildish.seek(Duration.ZERO);
-        playerSmash.stop();
-        playerSmash.seek(Duration.ZERO);
-
         if(pressed == null) return;
-        if (pressed.equals("goofy")) playerGoofy.play();
-        if (pressed.equals("childish")) playerChildish.play();
-        if (pressed.equals("smash")) playerSmash.play();
+        if (pressed.equals("goofy")) playAndWait(playerGoofy);
+        if (pressed.equals("childish")) playAndWait(playerChildish);
+        if (pressed.equals("smash")) playAndWait(playerSmash);
+    }
+
+    private void playAndWait(MediaPlayer player) {
+        player.seek(Duration.ZERO);
+        player.play();
+        System.out.print("Playing...");
+        int times = 0;
+        while(!player.getCurrentTime().equals(player.getTotalDuration())) times++;
+        System.out.print("Waited for " + times + " iterations...");
+        player.pause();
+        System.out.println("Stopping.");
     }
 
     public void run() {
-        boolean waiting;
         Thread.currentThread().setName("Playback Thread");
         while(!Thread.interrupted()) {
             playNext(theQueue.pullNext());
-            waiting = true;
-
-            //TODO: Only works for goofy right now; fix this please
-            while(waiting) {
-                if (playerGoofy.getCurrentTime().equals(playerGoofy.getTotalDuration())) waiting = false;
-                if (playerGoofy.getStatus().equals(MediaPlayer.Status.READY) || playerGoofy.getStatus().equals(MediaPlayer.Status.STOPPED)) waiting = false;
-            }
         }
     }
-
 }

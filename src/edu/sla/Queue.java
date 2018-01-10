@@ -16,7 +16,6 @@ class Queue {
     }
 
     synchronized String pullNext() {
-        System.out.println("pulling");
         if(queuePos > 0) {
             String sendMe = queue[0];
             for (int i = 1; i < queuePos; i++) queue[i - 1] = queue[i];

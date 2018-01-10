@@ -13,10 +13,10 @@ public class Main extends Application {
     public void start(Stage theStage) throws Exception {
 
         Thread.currentThread().setName("GUI Thread");
+        Queue theQueue = new Queue();
 
-        QueuePlayer thePlayer = new QueuePlayer();
+        QueuePlayer thePlayer = new QueuePlayer(theQueue);
 
-        //TODO: make the queue better my man, its calling weird in the buttons
         Thread letsPlay = new Thread(thePlayer);
 
         Button goofy = new Button("Goofy");
@@ -24,13 +24,13 @@ public class Main extends Application {
         Button childish = new Button("Childish");
 
         goofy.setOnAction(e-> {
-            if(thePlayer.theQueue.canAdd()) thePlayer.theQueue.add("goofy");
+            if(theQueue.canAdd()) theQueue.add("goofy");
         });
         smash.setOnAction(e-> {
-            if(thePlayer.theQueue.canAdd()) thePlayer.theQueue.add("smash");
+            if(theQueue.canAdd()) theQueue.add("smash");
         });
         childish.setOnAction(e-> {
-            if(thePlayer.theQueue.canAdd()) thePlayer.theQueue.add("childish");
+            if(theQueue.canAdd()) theQueue.add("childish");
         });
 
         HBox buttons = new HBox();
