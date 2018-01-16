@@ -29,12 +29,12 @@ class QueuePlayer implements Runnable {
     private void playAndWait(MediaPlayer player) {
         player.seek(Duration.ZERO);
         player.play();
-        System.out.print("Playing...");
+        //System.out.print("Playing...");
         int times = 0;
         while(!player.getCurrentTime().equals(player.getTotalDuration())) times++;
-        System.out.print("Waited for " + times + " iterations...");
+        //System.out.print("Waited for " + times + " iterations...");
         player.pause();
-        System.out.println("Stopping.");
+        //System.out.println("Stopping.");
     }
 
     public void run() {

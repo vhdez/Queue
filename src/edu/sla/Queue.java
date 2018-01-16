@@ -6,7 +6,6 @@ class Queue {
 
     Queue() {
         queue = new String[100];
-        for(String item : queue) item = "";
         queuePos = 0;
     }
 
@@ -18,7 +17,7 @@ class Queue {
     synchronized String pullNext() {
         if(queuePos > 0) {
             String sendMe = queue[0];
-            for (int i = 1; i < queuePos; i++) queue[i - 1] = queue[i];
+            for(int i = 1; i < queuePos; i++) queue[i - 1] = queue[i];
             queue[queuePos - 1] = null;
             queuePos--;
             return sendMe;
