@@ -1,7 +1,12 @@
 package edu.sla;
 
 public class Server {
-    public void main(String[] args) {
+    public static void main(String[] args) {
+        System.out.println("Hello World!");
 
+        ServerNetworking serverNetworking = new ServerNetworking();
+        Thread serverNetworkingThread = new Thread(serverNetworking);
+        serverNetworkingThread.setName("serverNetworkingThread");
+        serverNetworkingThread.start();
     }
 }

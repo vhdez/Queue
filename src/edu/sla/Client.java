@@ -7,10 +7,16 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.net.Socket;
+
 public class Client extends Application {
 
     @Override
-    public void start(Stage theStage) throws Exception {
+    public void start(Stage theStage) {
 
         Thread.currentThread().setName("GUI Thread");
         Queue outQueue = new Queue();
@@ -46,5 +52,29 @@ public class Client extends Application {
         theStage.show();
 
         letsPlay.start();
+    }
+
+    public static void main(String[] args) {
+        BufferedReader reader;
+        PrintWriter writer;
+        OutputStream out;
+
+        try{
+            Socket sock = new Socket("127.0.0.1", 5000);
+            InputStreamReader streamReader = new InputStreamReader(sock.getInputStream());
+            reader = new BufferedReader(streamReader);
+            out = sock.getOutputStream();
+            writer = new PrintWriter(out);
+
+            CommHandler handler = new CommHandler(sock, reader);
+            Thread handlerThread = new Thread(handler);
+            handlerThread.start();
+
+            Application.launch(args);
+        } catch(Exception ex) {
+            ex.printStackTrace();
+            System.out.println("SongClient: No SongServer available.  Exiting....");
+        }
+
     }
 }
