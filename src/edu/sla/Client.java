@@ -14,15 +14,17 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 public class Client extends Application {
+    static BufferedReader reader;
+    static PrintWriter writer;
+    static OutputStream out;
+    static Queue inQueue;
+    static Queue outQueue;
 
     @Override
     public void start(Stage theStage) {
 
         Thread.currentThread().setName("GUI Thread");
-        Queue outQueue = new Queue();
-
-        QueuePlayer thePlayer = new QueuePlayer(outQueue);
-        Thread letsPlay = new Thread(thePlayer);
+        outQueue = new Queue();
 
         Button goofy = new Button("Goofy");
         Button smash = new Button("Smash");
@@ -38,6 +40,10 @@ public class Client extends Application {
             if(outQueue.canAdd()) outQueue.add("childish");
         });
 
+        TextSender sender = new TextSender(outQueue, out, writer);
+        Thread senderThread = new Thread(sender);
+        senderThread.start();
+
         HBox buttons = new HBox();
         buttons.getChildren().add(goofy);
         buttons.getChildren().add(smash);
@@ -50,14 +56,10 @@ public class Client extends Application {
         theStage.setScene(theScene);
         theStage.setTitle("Music Buttons");
         theStage.show();
-
-        letsPlay.start();
     }
 
     public static void main(String[] args) {
-        BufferedReader reader;
-        PrintWriter writer;
-        OutputStream out;
+        inQueue = new Queue();
 
         try{
             Socket sock = new Socket("127.0.0.1", 5000);
@@ -66,9 +68,13 @@ public class Client extends Application {
             out = sock.getOutputStream();
             writer = new PrintWriter(out);
 
-            CommHandler handler = new CommHandler(sock, reader);
+            CommHandler handler = new CommHandler(sock, inQueue, outQueue, reader);
             Thread handlerThread = new Thread(handler);
             handlerThread.start();
+
+            QueuePlayer thePlayer = new QueuePlayer(inQueue);
+            Thread letsPlay = new Thread(thePlayer);
+            letsPlay.start();
 
             Application.launch(args);
         } catch(Exception ex) {

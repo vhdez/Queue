@@ -15,7 +15,7 @@ class QueuePlayer implements Runnable {
     QueuePlayer(Queue queue) {
         theQueue = queue;
         playerGoofy = new MediaPlayer(new Media(new File("src/goofy-yell.mp3").toURI().toString()));
-        playerChildish = new MediaPlayer(new Media(new File("src/wii-shop-bonfire.mp3").toURI().toString()));
+        playerChildish = new MediaPlayer(new Media(new File("src/wii-shop-short.m4a").toURI().toString()));
         playerSmash = new MediaPlayer(new Media(new File("src/all-star-short.m4a").toURI().toString()));
     }
 
@@ -29,12 +29,8 @@ class QueuePlayer implements Runnable {
     private void playAndWait(MediaPlayer player) {
         player.seek(Duration.ZERO);
         player.play();
-        //System.out.print("Playing...");
-        int times = 0;
-        while(!player.getCurrentTime().equals(player.getTotalDuration())) times++;
-        //System.out.print("Waited for " + times + " iterations...");
+        while(!player.getCurrentTime().equals(player.getTotalDuration())) /*do nothing*/;
         player.pause();
-        //System.out.println("Stopping.");
     }
 
     public void run() {

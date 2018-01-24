@@ -25,6 +25,10 @@ class Queue {
         else return null;
     }
 
+    boolean empty() {
+        return (queuePos == 0);
+    }
+
     boolean canAdd() {
         return (queuePos < queue.length);
     }

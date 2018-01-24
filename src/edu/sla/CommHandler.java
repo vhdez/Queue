@@ -3,14 +3,18 @@ package edu.sla;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class CommHandler implements Runnable {
-    boolean isServer;
+    private boolean isServer;
     private InputStream in;
     private ArrayList clientOutputStreams;
     private BufferedReader reader;
+    private Queue inQueue;
+    private Queue outQueue;
 
     //constructor for server
     CommHandler(Socket sock, ArrayList streams) {
@@ -27,8 +31,10 @@ public class CommHandler implements Runnable {
     }
 
     //constructor for client
-    CommHandler(Socket sock, BufferedReader r) {
+    CommHandler(Socket sock, Queue inQ, Queue outQ, BufferedReader r) {
         isServer = false;
+        inQueue = inQ;
+        outQueue = outQ;
         reader = r;
         try {
             in = sock.getInputStream();
@@ -43,8 +49,20 @@ public class CommHandler implements Runnable {
         try {
             String message;
             while ((message = reader.readLine()) != null) {
-                //TODO: Make this read strings and update clients
-                System.out.println("PictureChat CommunicationHandler: read " + message);
+                if(isServer) {
+                    Iterator allClients = clientOutputStreams.iterator();
+                    while(allClients.hasNext()) {
+                        try {
+                            PrintWriter writer = (PrintWriter) allClients.next();
+                            writer.println(message);
+                            writer.flush();
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                            System.out.println("SongServer CommHandler: Failed to tell all clients.");
+                        }
+                    }
+                }
+                else if(inQueue.canAdd()) inQueue.add(message);
             }
         } catch(Exception ex) {
             ex.printStackTrace();
