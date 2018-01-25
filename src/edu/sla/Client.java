@@ -14,11 +14,8 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 public class Client extends Application {
-    static BufferedReader reader;
-    static PrintWriter writer;
-    static OutputStream out;
-    static Queue inQueue;
-    static Queue outQueue;
+    private static PrintWriter writer;
+    private static Queue outQueue;
 
     @Override
     public void start(Stage theStage) {
@@ -40,7 +37,7 @@ public class Client extends Application {
             if(outQueue.canAdd()) outQueue.add("childish");
         });
 
-        TextSender sender = new TextSender(outQueue, out, writer);
+        TextSender sender = new TextSender(outQueue, writer);
         Thread senderThread = new Thread(sender);
         senderThread.start();
 
@@ -59,13 +56,13 @@ public class Client extends Application {
     }
 
     public static void main(String[] args) {
-        inQueue = new Queue();
+        Queue inQueue = new Queue();
 
         try{
             Socket sock = new Socket("127.0.0.1", 5000);
             InputStreamReader streamReader = new InputStreamReader(sock.getInputStream());
-            reader = new BufferedReader(streamReader);
-            out = sock.getOutputStream();
+            BufferedReader reader = new BufferedReader(streamReader);
+            OutputStream out = sock.getOutputStream();
             writer = new PrintWriter(out);
 
             CommHandler handler = new CommHandler(sock, inQueue, outQueue, reader);

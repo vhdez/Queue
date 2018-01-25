@@ -16,7 +16,7 @@ public class ServerNetworking implements Runnable {
         try {
             ServerSocket serverSock = new ServerSocket(5000);
             System.out.println("SongServer: Networking is ready.");
-            while (true) {
+            while(!Thread.interrupted()) {
                 Socket clientSocket = serverSock.accept();
                 PrintWriter writer = new PrintWriter(clientSocket.getOutputStream());
                 clientOutputStreams.add(writer);
