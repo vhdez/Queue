@@ -5,10 +5,12 @@ import java.io.PrintWriter;
 public class TextSender implements Runnable{
     private Queue outQueue;
     private PrintWriter writer;
+    private String username;
 
-    TextSender(Queue queue, PrintWriter w) {
+    TextSender(Queue queue, PrintWriter w, String uname) {
         outQueue = queue;
         writer = w;
+        username = uname;
     }
 
     public void run() {
@@ -18,6 +20,9 @@ public class TextSender implements Runnable{
             }
             try {
                 writer.println(outQueue.pullNext());
+                writer.flush();
+                Thread.sleep(10);
+                writer.println(username);
                 writer.flush();
             } catch(Exception ex) {
                 ex.printStackTrace();

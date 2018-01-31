@@ -14,7 +14,7 @@ public class CommHandler implements Runnable {
     private ArrayList clientOutputStreams;
     private BufferedReader reader;
     private Queue inQueue;
-    private Queue outQueue;
+    private Queue nameQueue;
 
     //constructor for server
     CommHandler(Socket sock, ArrayList streams) {
@@ -31,10 +31,10 @@ public class CommHandler implements Runnable {
     }
 
     //constructor for client
-    CommHandler(Socket sock, Queue inQ, Queue outQ, BufferedReader r) {
+    CommHandler(Socket sock, Queue inQ, Queue nameQ, BufferedReader r) {
         isServer = false;
         inQueue = inQ;
-        outQueue = outQ;
+        nameQueue = nameQ;
         reader = r;
         try {
             in = sock.getInputStream();
@@ -48,6 +48,7 @@ public class CommHandler implements Runnable {
     public void run() {
         try {
             String message;
+            String name;
             while ((message = reader.readLine()) != null) {
                 if(isServer) {
                     Iterator allClients = clientOutputStreams.iterator();
@@ -56,13 +57,22 @@ public class CommHandler implements Runnable {
                             PrintWriter writer = (PrintWriter) allClients.next();
                             writer.println(message);
                             writer.flush();
+                            Thread.sleep(10);
+                            name = reader.readLine();
+                            writer.println(name);
+                            writer.flush();
                         } catch (Exception ex) {
                             ex.printStackTrace();
                             System.out.println("SongServer CommHandler: Failed to tell all clients.");
                         }
                     }
                 }
-                else if(inQueue.canAdd()) inQueue.add(message);
+                else if(inQueue.canAdd()) {
+                    inQueue.add(message);
+                    Thread.sleep(10);
+                    name = reader.readLine();
+                    nameQueue.add(name);
+                }
             }
         } catch(Exception ex) {
             ex.printStackTrace();
