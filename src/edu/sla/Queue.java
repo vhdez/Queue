@@ -17,7 +17,8 @@ class Queue {
     synchronized String pullNext() {
         if(queuePos > 0) {
             String sendMe = queue[0];
-            for(int i = 1; i < queuePos; i++) queue[i - 1] = queue[i];
+            System.arraycopy(queue, 1, queue, 0, queue.length-1);
+            //for(int i = 1; i < queuePos; i++) queue[i - 1] = queue[i]; //old version of above line
             queue[queuePos - 1] = null;
             queuePos--;
             return sendMe;
