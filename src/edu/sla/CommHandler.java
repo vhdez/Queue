@@ -48,7 +48,6 @@ public class CommHandler implements Runnable {
     public void run() {
         try {
             String message;
-            String name;
             while ((message = reader.readLine()) != null) {
                 if(isServer) {
                     Iterator allClients = clientOutputStreams.iterator();
@@ -57,10 +56,6 @@ public class CommHandler implements Runnable {
                             PrintWriter writer = (PrintWriter) allClients.next();
                             writer.println(message);
                             writer.flush();
-                            Thread.sleep(10);
-                            name = reader.readLine();
-                            writer.println(name);
-                            writer.flush();
                         } catch (Exception ex) {
                             ex.printStackTrace();
                             System.out.println("SongServer CommHandler: Failed to tell all clients.");
@@ -68,10 +63,9 @@ public class CommHandler implements Runnable {
                     }
                 }
                 else if(inQueue.canAdd()) {
-                    inQueue.add(message);
-                    Thread.sleep(10);
-                    name = reader.readLine();
-                    nameQueue.add(name);
+                    String[] bits = message.split("//break//");
+                    inQueue.add(bits[0]);
+                    nameQueue.add(bits[1]);
                 }
             }
         } catch(Exception ex) {

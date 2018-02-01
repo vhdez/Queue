@@ -3,6 +3,7 @@ package edu.sla;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -31,6 +32,9 @@ public class Client extends Application {
         Button childish = new Button("Childish");
 
         Text culprit = new Text("Current song chosen by ");
+        Text nameInfo = new Text("Enter username below:");
+        TextField myName = new TextField("default_user");
+        Button setName = new Button("Set Username");
 
         goofy.setOnAction(e-> {
             if(outQueue.canAdd()) outQueue.add("goofy");
@@ -46,6 +50,11 @@ public class Client extends Application {
         Thread senderThread = new Thread(sender);
         senderThread.start();
 
+        setName.setOnAction(e-> {
+            username = myName.getText();
+            sender.setName(username);
+        });
+
         HBox buttons = new HBox();
         buttons.getChildren().add(goofy);
         buttons.getChildren().add(smash);
@@ -54,8 +63,11 @@ public class Client extends Application {
         VBox things = new VBox();
         things.getChildren().add(culprit);
         things.getChildren().add(buttons);
+        things.getChildren().add(nameInfo);
+        things.getChildren().add(myName);
+        things.getChildren().add(setName);
 
-        Scene theScene = new Scene(things, 300, 60);
+        Scene theScene = new Scene(things, 300, 120);
         theStage.setScene(theScene);
         theStage.setTitle("Music Buttons");
         theStage.show();
@@ -68,7 +80,7 @@ public class Client extends Application {
     public static void main(String[] args) {
         inQueue = new Queue();
         nameQueue = new Queue();
-        username = "user";
+        username = "default_user";
 
         try{
             Socket sock = new Socket("127.0.0.1", 5000);
@@ -84,7 +96,7 @@ public class Client extends Application {
             Application.launch(args);
         } catch(Exception ex) {
             ex.printStackTrace();
-            System.out.println("SongClient: No SongServer available.  Exiting....");
+            System.out.println("SongClient: No SongServer available.  Exiting...");
         }
 
     }

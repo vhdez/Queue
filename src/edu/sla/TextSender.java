@@ -19,15 +19,16 @@ public class TextSender implements Runnable{
                 Thread.currentThread().yield();
             }
             try {
-                writer.println(outQueue.pullNext());
-                writer.flush();
-                Thread.sleep(10);
-                writer.println(username);
+                writer.println(outQueue.pullNext() + "//break//" + username);
                 writer.flush();
             } catch(Exception ex) {
                 ex.printStackTrace();
                 System.out.println("SongClient TextSender: Unable to send text.");
             }
         }
+    }
+
+    public void setName(String uname) {
+        username = uname;
     }
 }
