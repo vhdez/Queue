@@ -26,7 +26,7 @@ public class TextSender implements Runnable{
                 System.out.println("SongClient TextSender: Unable to send text.");
             }
         }
-    }
+    }// "goofy//break//user"
 
     public void setName(String uname) {
         username = uname;

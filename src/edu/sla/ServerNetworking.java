@@ -21,7 +21,7 @@ public class ServerNetworking implements Runnable {
                 PrintWriter writer = new PrintWriter(clientSocket.getOutputStream());
                 clientOutputStreams.add(writer);
 
-                // for every new client, run an IncomingDataReceiver on a new thread to receive data from it
+                // for every new client, run a CommHandler on a new thread to receive data from it
                 CommHandler handler = new CommHandler(clientSocket, clientOutputStreams);
                 Thread handlerThread = new Thread(handler);
                 handlerThread.start();
